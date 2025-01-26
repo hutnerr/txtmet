@@ -83,26 +83,23 @@ int main(int argc, char **argv)
     // TODO: Do the spinny bar thing 
     printf("Read file. Counting now.\n");
 
-    int word_count = 0;
-    int char_count = 0;
-    int line_count = 0;
+    // get the data from the file
+    int data[3];
+    getData(file, data);
 
     if (words)
     {
-        word_count = countWords(file);
-        printf("Words:\t %d\n", word_count);
+        printf("Words:\t %d\n", data[0]);
     }
 
     if (chars)
     {
-        char_count = countChars(file);
-        printf("Chars:\t %d\n", char_count);
+        printf("Chars:\t %d\n", data[1]);
     }
 
     if (lines)
     {
-        line_count = countLines(file);
-        printf("Lines:\t %d\n", line_count);
+        printf("Lines:\t %d\n", data[2]);
     }
 
     fclose(file);

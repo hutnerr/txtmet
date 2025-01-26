@@ -1,17 +1,52 @@
 #include <stdio.h>
 #include "filemetrics.h"
 
-long countWords(FILE *file)
+int getData(FILE *file, int *data)
 {
-    return -1;
-}
+    if (file == NULL) 
+    {
+        return -1;
+    }
 
-long countChars(FILE *file)
-{
-    return -1;
-}
+    // 0 = words, 1 = chars, 2 = lines
+    data[0] = 0; 
+    data[1] = 0;
+    data[2] = 0; 
 
-long countLines(FILE *file)
-{
-    return -1;
+    // FIXME: add another character counter, one that includes whitespace and one that doesnt 
+
+    int c;
+    int lastC = 0;
+
+    while ((c = fgetc(file)) != EOF)
+    {
+        if (lastC != '\n' && lastC != ' ' && lastC != '\t')
+        {
+            data[1]++; // count characters
+        }
+
+        if (c == ' ' || c == '\n' || c == '\t')
+        {
+            if (lastC != ' ' && lastC != '\n' && lastC != '\t')
+            {
+                data[0]++; // count words
+            }
+        }
+
+        if (c == '\n')
+        {
+            data[2]++; // count lines
+        }
+        lastC = c;
+    }
+
+    if (data[1] > 0)
+    {
+        if (lastC != ' ' && lastC != '\n' && lastC != '\t')
+        {
+            data[0]++; // count the last word
+        }
+        data[2]++; // count the last line
+    }
+    return 1;
 }
