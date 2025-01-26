@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "filemetrics.h"
 
+#define TAB '\t'
+#define SPACE ' '
+#define NEWLINE '\n'
+
+
 int getData(FILE *file, int *data)
 {
     if (file == NULL) 
@@ -8,45 +13,51 @@ int getData(FILE *file, int *data)
         return -1;
     }
 
-    // 0 = words, 1 = chars, 2 = lines
-    data[0] = 0; 
-    data[1] = 0;
-    data[2] = 0; 
+    data[0] = 0; // words
+    data[1] = 0; // chars w/o whitespace
+    data[2] = 0; // chars w whitespace
+    data[3] = 0; // lines
+    data[4] = 0; // sentences
 
-    // FIXME: add another character counter, one that includes whitespace and one that doesnt 
-
-    int c;
-    int lastC = 0;
+    int c; 
+    int lastc = 0; // so we can check if characters occurred between what we're checking
 
     while ((c = fgetc(file)) != EOF)
     {
-        if (lastC != '\n' && lastC != ' ' && lastC != '\t')
+        if ((c == NEWLINE || c == SPACE) && (lastc != SPACE && lastc != TAB && lastc != NEWLINE))
         {
-            data[1]++; // count characters
+            data[0]++;
         }
 
-        if (c == ' ' || c == '\n' || c == '\t')
+        // characters excluding whitespace
+        if (c != SPACE && c != TAB && c != NEWLINE)
         {
-            if (lastC != ' ' && lastC != '\n' && lastC != '\t')
-            {
-                data[0]++; // count words
-            }
+            data[1]++;
         }
 
-        if (c == '\n')
+        data[2]++; // we should always count characters including whitespace
+
+        // count our lines 
+        if (c == NEWLINE) 
         {
-            data[2]++; // count lines
+            data[3]++;
         }
-        lastC = c;
+
+        // count sentences
+        if ((lastc != '.' || lastc != '!' || lastc != '?') && (c == '.' || c == '!' || c == '?'))
+        {
+            data[4]++;
+        }
+        lastc = c;
     }
 
-    if (data[1] > 0)
+    // if our last character wasnt whitespace
+    // then we have one more word and line to count 
+    if (lastc != SPACE && lastc != TAB && lastc != NEWLINE)
     {
-        if (lastC != ' ' && lastC != '\n' && lastC != '\t')
-        {
-            data[0]++; // count the last word
-        }
-        data[2]++; // count the last line
+        data[0]++;
+        data[3]++;
     }
+
     return 1;
 }

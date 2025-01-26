@@ -20,6 +20,7 @@ void usage()
     printf("Options:\n");
     printf("  -w: count words (default)\n");
     printf("  -c: count characters\n");
+    printf("  -s: count sentences\n");
     printf("  -l: count lines\n");
     printf("  -a: count all\n");
 }
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
     bool words = true; // since this is our default
     bool chars = false;
     bool lines = false;
+    bool sentences = false;
 
     if (argc < 2)
     {
@@ -39,7 +41,7 @@ int main(int argc, char **argv)
 
     // parse the inputs 
     int i;
-    while ((i = getopt(argc, argv, "wcla")) != -1)
+    while ((i = getopt(argc, argv, "wcsla")) != -1)
     {
         switch (i)
         {
@@ -48,14 +50,21 @@ int main(int argc, char **argv)
             break;
         case 'c':
             chars = true;
+            words = false; // cause by default its true
+            break;
+        case 's':
+            sentences = true;
+            words = false; // cause by default its true
             break;
         case 'l':
             lines = true;
+            words = false; // cause by default its true
             break;
         case 'a':
             words = true;
             chars = true;
             lines = true;
+            sentences = true;
             break;
         default:
             printf("Invalid option\n");
@@ -84,22 +93,28 @@ int main(int argc, char **argv)
     printf("Read file. Counting now.\n");
 
     // get the data from the file
-    int data[3];
+    int data[5];
     getData(file, data);
 
     if (words)
     {
-        printf("Words:\t %d\n", data[0]);
+        printf("Words\t\t %d\n", data[0]);
     }
 
     if (chars)
     {
-        printf("Chars:\t %d\n", data[1]);
+        printf("Chars\t\t %d\n", data[1]);
+        printf("Chars w Space\t% d\n", data[2]);
     }
 
     if (lines)
     {
-        printf("Lines:\t %d\n", data[2]);
+        printf("Lines\t\t %d\n", data[3]);
+    }
+
+    if (sentences)
+    {
+        printf("Sentences\t %d\n", data[4]);
     }
 
     fclose(file);
