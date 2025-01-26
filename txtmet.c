@@ -4,7 +4,7 @@
  * 
  * @author Hunter Baker
  * @version 1.01
- * @date 2024-17-12 
+ * @date Jan 26, 2025
  */
 #include <stdio.h>
 #include <stdbool.h>
@@ -15,7 +15,8 @@
 void usage();
 void usage()
 {
-    printf("Usage: ./wordcnt <option> <input_file>\n");
+    printf("Usage: ./txtmet <option(s)> <input_file>\n");
+    printf("Example: ./txtmet -a ./testing/1.txt");
     printf("Supported filetypes: .txt\n");
     printf("Options:\n");
     printf("  -w: count words (default)\n");
@@ -27,7 +28,9 @@ void usage()
 
 int main(int argc, char **argv)
 {
-    bool words = true; // since this is our default
+    bool defaultconfig = true;
+
+    bool words = false; 
     bool chars = false;
     bool lines = false;
     bool sentences = false;
@@ -47,18 +50,19 @@ int main(int argc, char **argv)
         {
         case 'w':
             words = true;
+            defaultconfig = false;
             break;
         case 'c':
             chars = true;
-            words = false; // cause by default its true
+            defaultconfig = false;
             break;
         case 's':
             sentences = true;
-            words = false; // cause by default its true
+            defaultconfig = false;
             break;
         case 'l':
             lines = true;
-            words = false; // cause by default its true
+            defaultconfig = false;
             break;
         case 'a':
             words = true;
@@ -67,7 +71,7 @@ int main(int argc, char **argv)
             sentences = true;
             break;
         default:
-            printf("Invalid option\n");
+            printf("ERROR: Invalid option\n");
             usage();
             exit(EXIT_FAILURE);
         }
@@ -75,7 +79,7 @@ int main(int argc, char **argv)
 
     if (optind != argc - 1)
     {
-        printf("No filename or extraneous input\n");
+        printf("ERROR: No filename or extraneous input\n");
         usage();
         exit(EXIT_FAILURE);
     }
@@ -85,18 +89,16 @@ int main(int argc, char **argv)
     FILE *file = fopen(filename, "r");
     if (!file)
     {
-        printf("Error: cannot open file\n");
+        printf("ERROR: cannot open file\n");
         exit(EXIT_FAILURE);
     }
 
-    // TODO: Do the spinny bar thing 
-    printf("Read file. Counting now.\n");
-
     // get the data from the file
+    // words = 0, chars = 1, chars & spaces = 2, lines = 3, sentences = 4
     int data[5];
     getData(file, data);
 
-    if (words)
+    if (words || defaultconfig)
     {
         printf("Words\t\t %d\n", data[0]);
     }
@@ -104,7 +106,7 @@ int main(int argc, char **argv)
     if (chars)
     {
         printf("Chars\t\t %d\n", data[1]);
-        printf("Chars w Space\t% d\n", data[2]);
+        printf("Chars & Spaces\t% d\n", data[2]);
     }
 
     if (lines)
