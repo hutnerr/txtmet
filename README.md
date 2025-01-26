@@ -17,10 +17,20 @@ Options:
   -l: count lines
   -a: count all
 ```
+**Usage Example**
+```
+$ .\txtmet.exe -a .\testing\misery.txt
+Words            1755
+Chars            7710
+Chars & Spaces   9464
+Lines            1
+Sentences        266
+```
 
-**Examples**
+**More Examples**
 - `./txtmet`               Will provide a help message
 - `./txtmet test.txt`      Prints word metrics (default option)
 - `./txtmet -w test.txt`   Prints word metrics 
 - `./txtmet -a test.txt`   Prints all metrics
 - `./txtmet -wl test.txt`  Prints word and line metrics
+
