@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 /*
 * Get the data out of a file
 * 
