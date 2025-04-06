@@ -17,7 +17,6 @@ void usage()
 {
     printf("Usage: ./txtmet <option(s)> <input_file>\n");
     printf("Example: ./txtmet -a test.txt\n");
-    printf("Supported filetypes: .txt\n");
     printf("Options:\n");
     printf("  -w: count words (default)\n");
     printf("  -c: count characters\n");
