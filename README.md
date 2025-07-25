@@ -34,3 +34,5 @@ Sentences        266
 - `./txtmet -a test.txt`   Prints all metrics
 - `./txtmet -wl test.txt`  Prints word and line metrics
 
+**Links**
+- [Project Reflection](https://www.hunter-baker.com/pages/projects/txtmet.html)
