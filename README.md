@@ -1,5 +1,5 @@
 # TXTMET
-A command line utility that provides detailed metrics about plain text files.
+A command line utility that provides detailed metrics for plain text files.
 - Word count
 - Character count (with and without whitespace)
 - Sentence count
