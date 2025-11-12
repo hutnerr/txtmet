@@ -101,26 +101,6 @@ fn parse_cla(args: Vec<String>) -> Option<FlagOptions>
         lines: false
     };
 
-    // multiple flag implementation
-    // for i in 1..args.len() - 1
-    // {
-    //     let flag = &args[i].to_lowercase();
-    //     match flag.as_str()
-    //     {
-    //         "-w" => options.words = true,
-    //         "-c" => options.chars = true,
-    //         "-s" => options.sentences = true,
-    //         "-l" => options.lines = true,
-    //         "-a" => {
-    //             options.words = true;
-    //             options.chars = true;
-    //             options.sentences = true;
-    //             options.lines = true;
-    //         },
-    //         _ => return None
-    //     }
-    // }
-
     for arg in &args[1..args.len() - 1]
     {
         if !arg.starts_with('-') { return None; }
